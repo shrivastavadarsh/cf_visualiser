@@ -212,14 +212,17 @@ async function all() {
     // console.log(values);
     var bg_color = [];
     var borderColor = [];
-    for (var i = 0; i < keys.length; i++)
+    for(var i=0 ; i<keys.length;i++){
+        var  x = getRandomRgb_();
 
-    {
-        y = getRandomRgb();
-        // console.log(1);
-        bg_color.push(y);
-        // borderColor.push(y2);
+        bg_color.push(x);
+        x=x.slice(0,x.length-4);
+        x+="5)";
+        // console.log(x);
+        borderColor.push(x);
     }
+
+
     // PLOTTING THE PIE CHART FOR TAGWISE PROBLEM LIST AND TAGWISE ACCURACY 
     var ctx = document.getElementById('myChart3').getContext('2d');
     var myChart = new Chart(ctx, {
@@ -230,7 +233,7 @@ async function all() {
                 label: 'solved problem count(TAGWISE)',
                 data: values,
                 backgroundColor: bg_color,
-                borderColor: 'white',
+                borderColor: borderColor,
                 borderWidth: 2
             }]
         },
@@ -273,7 +276,7 @@ async function all() {
                 label: 'Tagwise accuracy',
                 data: Object.values(accuracy_tagwise),
                 backgroundColor: bg_color,
-                borderColor: 'white',
+                borderColor: borderColor,
                 borderWidth: 2
             }]
         },
