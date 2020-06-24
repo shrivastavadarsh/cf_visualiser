@@ -1,0 +1,23 @@
+/* canvas {
+    ;
+  } */
+  div {
+
+    padding: 5px 25px 5px 25px;
+  
+  }
+  
+
+  footer{
+      display: inline;
+  }
+  #info{
+      text-align: center;
+      font-weight: bolder;
+  }
+#info_content{
+    border: 1px solid gray;
+    font-weight: bold;
+}
+  
+  
