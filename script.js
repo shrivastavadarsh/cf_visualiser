@@ -1,3 +1,7 @@
+document.getElementById("ref").style.visibility = "hidden";
+
+
+
 function getInputValue() {
     // Selecting the input element and get its value 
     var inputVal = document.getElementById("cf_id").value;
@@ -44,8 +48,11 @@ function getRandomRgb_() {
 
 // implementing function for finding contest average accuracy and practice average accuracy
 
-// user = 'unpossible';
 async function all() {
+
+
+
+
     // e.preventDefault();
 
     // console.log("hello world");
@@ -64,6 +71,11 @@ async function all() {
     var questionRating_types = new Set();
     var language = {};
     var language_types = new Set();
+    var question_index_types = new Set();
+    var question_index_count = {}; 
+    
+    var max_Rank=10000000000;
+    var best_rannk = 0;
 
 
     // function calling for getting user input
@@ -74,11 +86,12 @@ async function all() {
 
 
 
-    console.log(user);
+    // console.log(user);
+    //  converting promice into json format using Api 
     let submissionApi = `https://codeforces.com/api/user.status?handle=${user}`;
 
 
-    console.log("start");
+    // console.log("start");
     const promice = await fetch(submissionApi);
 
     console.log(promice.ok);
@@ -91,12 +104,11 @@ async function all() {
         const data = await promice.json();
 
         var n = (data.result.length);
-        if (n == 0 || data.status=='FAILED') {
+        if (n == 0 || data.status == 'FAILED') {
             alert("Wrong username possibly");
             location.reload(true);
 
-        } 
-        else {
+        } else {
             var i;
             var array = [];
             for (i = 0; i < n; i++) {
@@ -169,8 +181,8 @@ async function all() {
             for (var i = 0; i < total_pb_list.length; i++) {
                 tagWiseTotal[total_pb_list[i]] += 1
             }
-            console.log(tagWiseProblem);
-            console.log(tagWiseTotal);
+            // console.log(tagWiseProblem);
+            // console.log(tagWiseTotal);
             var keys = Object.keys(tagWiseProblem);
             var values = Object.values(tagWiseProblem);
 
@@ -191,6 +203,26 @@ async function all() {
 
 
             // PLOTTING THE PIE CHART FOR TAGWISE PROBLEM LIST AND TAGWISE ACCURACY 
+            var options_tag_accuracy = {
+                responsive:true,
+                aspectRatio:1.5,
+                maintainAspeectRatio:true,
+                title: {
+                    display: true,
+                    position: "top",
+                    text: `Tagwise Problem Count  of ${user}`,
+                    fontSize: 18,
+                    fontColor: "#111"
+                },
+                legend: {
+                    display: true,
+                    //   position: "boundry",
+                    labels: {
+                        fontColor: "#333",
+                        fontSize: 12
+                    }
+                }
+            };
             var ctx = document.getElementById('myChart3').getContext('2d');
             var myChart = new Chart(ctx, {
                 type: 'pie',
@@ -204,6 +236,7 @@ async function all() {
                         borderWidth: 2
                     }]
                 },
+                options:options_tag_accuracy,
 
             });
 
@@ -212,11 +245,14 @@ async function all() {
             for (var i = 0; i < keys.length; i++) {
                 accuracy_tagwise[keys[i]] = (tagWiseProblem[keys[i]] / tagWiseTotal[keys[i]]).toPrecision(2);
             }
-            console.log(accuracy_tagwise);
+            // console.log(accuracy_tagwise);
 
             var ctx = document.getElementById('myChart4').getContext('2d');
             var options = {
                 responsive: true,
+                aspectRatio:1.5,
+                maintainAspeectRatio:true,
+
                 title: {
                     display: true,
                     position: "top",
@@ -256,13 +292,15 @@ async function all() {
             for (var i = 0; i < n; i++) {
                 language_types.add(data.result[i].programmingLanguage);
                 questionRating_types.add(data.result[i].problem.rating)
-                verdict_type.add(data.result[i].verdict);
+                verdict_type.add(data.result[i].verdict); 
+                question_index_types.add(data.result[i].problem.index);
 
 
             }
-            console.log(language_types);
-            console.log(verdict_type);
-            console.log(questionRating_types)
+            // console.log(language_types);
+            // console.log(verdict_type);
+            // console.log(questionRating_types)
+            console.log(question_index_types)
 
             for (let i of language_types) {
                 language[i] = 0;
@@ -274,6 +312,11 @@ async function all() {
             for (let i of questionRating_types) {
                 questionRating[i] = 0;
             }
+            // in question_index_types (a1 a1) = a similarily for all.... 
+            for (let i of question_index_types) {
+                question_index_count[i[0]] = 0;
+            }
+            console.log(question_index_count);
             // console.log(language);
             // console.log(questionRating);
             for (i = 0; i < n; i++) {
@@ -282,9 +325,13 @@ async function all() {
                 if (data.result[i].verdict == 'OK') {
 
                     questionRating[data.result[i].problem.rating] += 1;
+                    question_index_count[data.result[i].problem.index[0]]+=1;
+
                 }
 
+
             }
+            // console.log(question_index_count);
 
             // plotting graph for question type in mychart5 
 
@@ -314,6 +361,8 @@ async function all() {
                     }]
                 },
                 options: {
+                    aspectRatio:1.3,
+                    maintainAspeectRatio:true,
                     legend: {
                         display: true
                     },
@@ -339,8 +388,9 @@ async function all() {
                 verdict_border_color.push(x);
             }
             var options_verdict = {
-                responsive: true,
-                title: {
+                responsive:true,
+                aspectRatio:1,
+                maintainAspeectRatio:true,                title: {
                     display: true,
                     position: "top",
                     text: `Verdicts of ${user}`,
@@ -375,7 +425,7 @@ async function all() {
 
             });
 
-            // plotting graph for different languages of submissions 
+            // plotting graph for different languages of submissions  in mychart6
             lang_color = [];
             lang_border_color = [];
             var keys_lang = Object.keys(language);
@@ -392,6 +442,8 @@ async function all() {
             }
             var options_lang = {
                 responsive: true,
+                aspectRatio:1.5,
+                maintainAspeectRatio:true,
                 title: {
                     display: true,
                     position: "top",
@@ -403,8 +455,8 @@ async function all() {
                     display: true,
                     //   position: "boundry",
                     labels: {
-                        fontColor: "#333",
-                        fontSize: 12
+                        fontColor: "##000000",
+                        fontSize: 15
                     }
                 }
             };
@@ -426,6 +478,7 @@ async function all() {
                 options: options_lang
 
             });
+            // plotting accuracy in contests Vs acuracy in Practice in mychart2
             var ctx = document.getElementById('myChart2').getContext('2d');
             var myChart = new Chart(ctx, {
                 type: 'bar',
@@ -448,6 +501,9 @@ async function all() {
                     }]
                 },
                 options: {
+                    responsive:true,
+                    aspectRatio:1,
+                    maintainAspeectRatio:true,
                     scales: {
                         yAxes: [{
                             ticks: {
@@ -460,9 +516,76 @@ async function all() {
 
 
         }
+        // plotting question_index_count in mychart7 
+            var keys = Object.keys(question_index_count);
+            var values = Object.values(question_index_count);
+            var question_index_color = [];
+            var question_index_border_color = [];
+            for (var i = 0; i < keys.length; i++) {
+                var x = getRandomRgb_();
+
+                question_index_color.push(x);
+                x = x.slice(0, x.length - 4);
+                x += "5)";
+                // console.log(x);
+                question_index_border_color.push(x);
+            }
+            var options_question_index = {
+                responsive: true,
+                aspectRatio:1.5,
+                maintainAspeectRatio:true,
+                title: {
+                    display: true,
+                    position: "top",
+                    text: `Count of questions Vs Question Index of  ${user}`,
+                    fontSize: 18,
+                    fontColor: "#000000"
+                },
+                legend: {
+                    aspectRatio:1,
+                    maintainAspeectRatio:true,
+                    display: true,
+                    //   position: "boundry",
+                    labels: {
+                        fontColor: "##000000",
+                        fontSize: 18
+                    }
+                }
+            };
+            new Chart(document.getElementById("myChart7"), {
+                type: 'bar',
+                data: {
+                    labels: keys,
+                    fontSize:15,
+                    datasets: [{
+                        label: " Solved Problems count Vs Index ",
+                        fontSize : 15,
+                        backgroundColor: question_index_color,
+                        borderColor: question_index_border_color,
+                        data: values,
+                        borderWidth: 2
+                    }]
+                },
+                options: options_question_index
+            });
+           
+
 
 
     }
+
+    document.getElementById("ref").style.visibility = "visible";
+    document.getElementById("myChart1").style="border: 2px solid red";
+    // document.getElementById("myChart1").style="margin: 5px 5px 5px 5px";
+
+    document.getElementById("myChart2").style="border: 2px solid blue";
+
+    document.getElementById("myChart3").style="border: 2px solid pink";
+
+    document.getElementById("myChart4").style="border: 2px solid yellow";
+    document.getElementById("myChart5").style="border: 2px solid green";
+    document.getElementById("myChart6").style="border: 2px solid orange";
+    document.getElementById("myChart7").style="border: 2px solid violet";
 
 }
 
@@ -471,8 +594,23 @@ async function all() {
 
 
 
+// event Listeners 
 
-btn = document.querySelector("#bb");
-btn.addEventListener("click", all);
+submit_button = document.querySelector("#bb");
+submit_button.addEventListener("click", all);
+refresh_button= document.querySelector("#ref");
 
-// btn.addEventListener("click",all);
+refresh_button.addEventListener("click", function(){
+    location.reload(true);
+});
+
+document.querySelector("#cf_id").addEventListener('keypress', function (event) {
+    if (event.which === 13 || event.keyCode === 13 || event.key === "Enter")
+
+      all();
+
+    
+});
+
+
+
