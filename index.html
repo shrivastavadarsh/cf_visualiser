@@ -6,7 +6,7 @@
     <title></title>
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="">
+    <link rel="stylesheet" href="style.css">
     <script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.3/dist/Chart.min.js"></script>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
         integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
@@ -14,30 +14,43 @@
 </head>
 
 <body>
+    <div class="container">
+       <p class="lead text-info" id="info"> Info </p>
+        <p id="info_content" >
+            1.If you don't like the set of colors of any Graph .. then refresh the page new set of colors will appear. <br>
+            2. In mobile phones some Graph may not look attractive so either You rotate your Phone or "switch on" your desktop view. <br>
+
+        </p>
+         
+    </div>
     <!-- <div class="container">
         <h1>Hi this is starting of Project...</h1>
     </div> -->
     <div class="container">
-            
-            <div class="input-group mb-3">
-                <input type="text" id = "cf_id" class="form-control" placeholder="Codeforces Username" aria-label="Codeforces Username"
-                    aria-describedby="basic-addon2">
-                <div class="input-group-append">
-                    <button id  = "bb" class="btn btn-outline-secondary" type="submit" >submit</button>
-                </div>
+
+        <div class="input-group mb-3">
+            <div class="input-group-append">
+                <button id="ref" class="btn  btn-info btn-sm" type="submit">see new</button>
             </div>
-       
-    
+            <input type="text" id="cf_id" class="form-control" placeholder="Codeforces Username"
+                aria-label="Codeforces Username" aria-describedby="basic-addon2">
+            <div class="input-group-append">
+                <button id="bb" class="btn  btn-primary btn-lg" type="submit">submit</button>
+            </div>
+        </div>
+    </div>
 
 
-        <div class="container-fluid">
+
+
+        <div class="container">
             <div class="row">
                 <div class="col col-lg-6">
-                    <canvas id="myChart1" width="40 " height="40" ></canvas>
+                    <canvas id="myChart1"></canvas>
 
                 </div>
                 <div class="col col-lg-6">
-                    <canvas id="myChart2" width="40 " height="40" ></canvas>
+                    <canvas id="myChart2"></canvas>
 
                 </div>
             </div>
@@ -45,26 +58,33 @@
         <div class="container">
             <div class="row">
                 <div class="col col-lg-12">
-                    <canvas id="myChart3" width="100 " height="50" ></canvas>
+                    <canvas id="myChart3"></canvas>
 
                 </div>
 
-            </div>
+        </div>
+        <div class="container">
             <div class='row'>
                 <div class="col col-lg-12">
-                    <canvas id="myChart4" width="80 " height="80" ></canvas>
+                    <canvas id="myChart4"></canvas>
 
                 </div>
             </div>
-            <div class='row'>
-                <div class="col col-lg-12">
-                    <canvas id="myChart5" width="800 " height="450" ></canvas>
+            <div class="row">
+                <div class="col col-lg-12 barType">
+                    <canvas id="myChart5"></canvas>
 
                 </div>
             </div>
             <div class='row'>
                 <div class="colcol col-lg-12">
-                    <canvas id="myChart6" width="800 " height="450" ></canvas>
+                    <canvas id="myChart6"></canvas>
+
+                </div>
+            </div>
+            <div class="row">
+                <div class="colcol col-lg-12 barType">
+                    <canvas id="myChart7"></canvas>
 
                 </div>
             </div>
@@ -88,5 +108,9 @@
         </script>
 
 </body>
+<footer>
+        <p>&#169: brosForever<br>
+        <a href="mailto:adarshraj458@gmail.com">adarshraj458@gmail.com</a></p>
+      </footer>
 
 </html>
